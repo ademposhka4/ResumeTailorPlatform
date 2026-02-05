@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - MyApply{% endblock %}
+
+{% block content %}
+<div class="profile-edit">
+    <h1 class="card-title mb-2">
+        Edit Profile
+    </h1>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{% if profile %}Edit{% else %}Create{% endif %} Profile</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="location">Location</label>
+                    <input type="text" name="location" id="location" class="form-input" 
+                           value="{% if profile %}{{ profile.location }}{% endif %}" 
+                           placeholder="e.g., Atlanta, GA">
+                    <small class="text-muted">Your preferred location for job search.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="preferred_radius_km">Preferred Radius (km)</label>
+                    <input type="number" name="preferred_radius_km" id="preferred_radius_km" 
+                           class="form-input" 
+                           value="{% if profile %}{{ profile.preferred_radius_km }}{% else %}30{% endif %}" 
+                           min="1">
+                    <small class="text-muted">Maximum distance you're willing to travel for work.</small>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save Profile</button>
+                    <a href="{% url 'profile_view' %}" class="btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

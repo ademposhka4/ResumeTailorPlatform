@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - MyApply{% endblock %}
+
+{% block extra_css %}
+<style>
+.login-container {
+    max-width: 480px;
+    margin: 5rem auto;
+    padding: 0 1rem;
+}
+
+.login-card {
+    background: var(--primary-bg);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 2.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.login-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-form .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.login-form .form-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    background: var(--primary-bg);
+    box-sizing: border-box;
+}
+
+.login-form .form-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.login-form .btn-primary {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    background: var(--accent-blue);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-form .btn-primary:hover {
+    background: var(--accent-blue-hover);
+}
+
+.alert {
+    margin-bottom: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="login-title">Login</h1>
+        </div>
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+            <div class="alert alert-error mb-1">
+                Invalid username or password.
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label class="form-label" for="id_username">Username</label>
+                <input type="text" name="username" class="form-input" id="id_username" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="id_password">Password</label>
+                <input type="password" name="password" class="form-input" id="id_password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Login
+            </button>
+
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+</div>
+{% endblock %}

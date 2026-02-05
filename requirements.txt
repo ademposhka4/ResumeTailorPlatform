@@ -1,0 +1,9 @@
+Django>=4.2,<5.0
+djangorestframework>=3.14,<4.0
+requests>=2.31.0
+mysqlclient
+python-dotenv
+django-q2>=1.8.0
+openai>=1.40.0
+beautifulsoup4>=4.12
+tenacity>=8.2

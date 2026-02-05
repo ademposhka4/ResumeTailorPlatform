@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Job - MyApply{% endblock %}
+
+{% block extra_css %}
+<style>
+.form-label-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--accent-blue);
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.form-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    margin-bottom: 0.875rem;
+    padding: 0.75rem 1rem;
+    background: #dbeafe;
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.form-hint-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-blue);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.job-form {
+    background: var(--primary-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 2rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Track New Job</h1>
+</div>
+
+<form method="post" class="job-form">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label class="form-label" for="title">
+            <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            Job Title *
+        </label>
+        <input type="text" name="title" id="title" class="form-input" required placeholder="e.g., Senior Software Engineer">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="company">
+            <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            </svg>
+            Company *
+        </label>
+        <input type="text" name="company" id="company" class="form-input" required placeholder="e.g., Google">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="location_text">
+            <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Location
+        </label>
+        <input type="text" name="location_text" id="location_text" class="form-input" placeholder="e.g., Remote, Atlanta GA">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="source_url">
+            <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            Job URL
+        </label>
+        <div class="form-hint">
+            <svg class="form-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Optional — include the original posting link for reference.</span>
+        </div>
+        <input type="url" name="source_url" id="source_url" class="form-input" placeholder="https://...">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="raw_description">
+            <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            Job Description
+        </label>
+        <div class="form-hint">
+            <svg class="form-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Paste the job description text. Provide this or the URL above (or both) for better AI matching.</span>
+        </div>
+        <textarea name="raw_description" id="raw_description" class="form-textarea" rows="15" placeholder="Paste the full job description here..."></textarea>
+    </div>
+
+    <div class="form-actions">
+        <a href="{% url 'job_list' %}" class="btn">Cancel</a>
+        <button type="submit" class="btn btn-primary">Track Job</button>
+    </div>
+</form>
+{% endblock %}

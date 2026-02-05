@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Jobs | MyApply{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">My Jobs</h1>
+    <a href="{% url 'job_create' %}" class="btn btn-primary">
+        <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Job
+    </a>
+</div>
+
+{% if jobs %}
+    <div class="job-grid">
+        {% for job in jobs %}
+        {% with stats=job.get_tailoring_stats %}
+        <div class="job-card">
+            <!-- Session Count Badge -->
+            {% if stats.total > 0 %}
+            <div class="job-card__badge {% if stats.total >= 4 %}job-card__badge--premium{% endif %}"
+                 title="{{ stats.total }} tailoring session{{ stats.total|pluralize }}">
+                <svg class="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <span>{{ stats.total }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Card Header -->
+            <div class="job-card__header">
+                <div class="job-card__main">
+                    <h2 class="job-card__title">{{ job.title }}</h2>
+                    <div class="job-card__company">{{ job.company }}</div>
+                    {% if job.location_text %}
+                    <div class="job-card__location">
+                        <svg class="icon-location" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        {{ job.location_text }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Status Indicators -->
+                {% if stats.total > 0 %}
+                <div class="job-card__status-dots">
+                    {% for i in "x"|rjust:stats.completed %}
+                    <span class="status-dot status-dot--completed" title="Completed session"></span>
+                    {% endfor %}
+                    {% for i in "x"|rjust:stats.processing %}
+                    <span class="status-dot status-dot--processing" title="Processing session"></span>
+                    {% endfor %}
+                    {% for i in "x"|rjust:stats.failed %}
+                    <span class="status-dot status-dot--failed" title="Failed session"></span>
+                    {% endfor %}
+                    {% for i in "x"|rjust:stats.pending %}
+                    <span class="status-dot status-dot--pending" title="Pending session"></span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Job Metadata -->
+            <div class="job-card__meta">
+                <span class="job-card__date">
+                    <svg class="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    Added {{ job.created_at|timesince }} ago
+                </span>
+            </div>
+
+            <!-- Tailoring Activity Panel -->
+            {% if stats.total > 0 %}
+            <div class="job-card__sessions-section">
+                <button class="job-card__sessions-toggle" data-job-id="{{ job.id }}" type="button">
+                    <span class="job-card__sessions-title">
+                        <svg class="sessions-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 0.5rem; flex-shrink: 0;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                        Session Activity
+                        <div class="sessions-stats-inline">
+                            {% if stats.completed > 0 %}
+                            <div class="stat-inline">
+                                <span class="stat-inline-dot stat-inline-dot--completed"></span>
+                                <span class="stat-inline-value">{{ stats.completed }}</span>
+                            </div>
+                            {% endif %}
+                            {% if stats.processing > 0 %}
+                            <div class="stat-inline">
+                                <span class="stat-inline-dot stat-inline-dot--processing"></span>
+                                <span class="stat-inline-value">{{ stats.processing }}</span>
+                            </div>
+                            {% endif %}
+                            {% if stats.failed > 0 %}
+                            <div class="stat-inline">
+                                <span class="stat-inline-dot stat-inline-dot--failed"></span>
+                                <span class="stat-inline-value">{{ stats.failed }}</span>
+                            </div>
+                            {% endif %}
+                            {% if stats.pending > 0 %}
+                            <div class="stat-inline">
+                                <span class="stat-inline-dot stat-inline-dot--pending"></span>
+                                <span class="stat-inline-value">{{ stats.pending }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </span>
+                    <svg class="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <div class="job-card__sessions-panel" id="sessions-{{ job.id }}" style="display: none;">
+                    <!-- Stats Bar -->
+                    <div class="sessions-stats">
+                        <div class="session-stat">
+                            <span class="session-stat__value session-stat__value--completed">{{ stats.completed }}</span>
+                            <span class="session-stat__label">Completed</span>
+                        </div>
+                        <div class="session-stat">
+                            <span class="session-stat__value session-stat__value--processing">{{ stats.processing }}</span>
+                            <span class="session-stat__label">Processing</span>
+                        </div>
+                        <div class="session-stat">
+                            <span class="session-stat__value session-stat__value--pending">{{ stats.pending }}</span>
+                            <span class="session-stat__label">Pending</span>
+                        </div>
+                        {% if stats.success_rate > 0 %}
+                        <div class="session-stat">
+                            <span class="session-stat__value">{{ stats.success_rate }}%</span>
+                            <span class="session-stat__label">Success</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Mini Session Cards -->
+                    <div class="mini-sessions">
+                        {% for session in stats.recent_sessions %}
+                        <a href="{% url 'tailoring_detail' session.id %}" class="mini-session-card mini-session-card--{{ session.status|lower }}">
+                            <div class="mini-session-card__icon">
+                                {% if session.status == 'COMPLETED' %}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                {% elif session.status == 'PROCESSING' %}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                {% elif session.status == 'FAILED' %}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                                {% else %}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <div class="mini-session-card__content">
+                                <div class="mini-session-card__date">{{ session.created_at|timesince }} ago</div>
+                                <div class="mini-session-card__status">{{ session.get_status_display }}</div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                        {% if stats.total > 3 %}
+                        <a href="{% url 'tailoring_list' %}?job={{ job.id }}" class="mini-session-card mini-session-card--view-all">
+                            <div class="mini-session-card__icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                            </div>
+                            <div class="mini-session-card__content">
+                                <div class="mini-session-card__status">View All ({{ stats.total }})</div>
+                            </div>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Empty State for No Sessions -->
+            <div class="job-card__no-sessions">
+                <svg class="job-card__no-sessions-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                </svg>
+                <p class="job-card__no-sessions-text">Ready to tailor your resume?</p>
+            </div>
+            {% endif %}
+
+            <!-- Card Actions -->
+            <div class="job-card__actions">
+                <a href="{% url 'tailoring_create' %}?job_id={{ job.id }}" class="btn-action btn-action--primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    Tailor Resume
+                </a>
+                <a href="{% url 'job_detail' job.id %}" class="btn-action btn-action--secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    View Details
+                </a>
+            </div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+{% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+        <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <div class="empty-state-text">No jobs tracked yet</div>
+        <p class="empty-state-description">Start by adding your first job opportunity to begin tailoring your resume.</p>
+        <a href="{% url 'job_create' %}" class="btn btn-primary">
+            <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add Your First Job
+        </a>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle session panel toggle
+    const toggleButtons = document.querySelectorAll('.job-card__sessions-toggle');
+
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const jobId = this.dataset.jobId;
+            const panel = document.getElementById('sessions-' + jobId);
+            const chevron = this.querySelector('.icon-chevron');
+
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                panel.style.animation = 'slideDown 0.3s ease-out';
+                chevron.style.transform = 'rotate(180deg)';
+                this.classList.add('active');
+            } else {
+                panel.style.display = 'none';
+                chevron.style.transform = 'rotate(0deg)';
+                this.classList.remove('active');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

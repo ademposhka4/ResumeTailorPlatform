@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load tailoring_filters %}
+
+{% block title %}Profile - MyApply{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="card-header">
+        <h1 class="card-title">
+            Profile
+        </h1>
+        <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit</a>
+    </div>
+
+    {% if profile %}
+    <div class="card mt-2">
+        <div class="card-header">
+            <h2 class="card-title">Your Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-2">
+                <div>
+                    <p class="text-muted">Location</p>
+                    <p>{{ profile.location|default:"Not set" }}</p>
+                </div>
+                <div>
+                    <p class="text-muted">Preferred Radius</p>
+                    <p>{{ profile.preferred_radius_km }} km</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card mt-2">
+        <div class="card-body">
+            <p class="text-muted mb-1">No profile found.</p>
+            <a href="{% url 'profile_edit' %}" class="btn btn-primary">Create Profile</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card mt-2">
+        <div class="card-header">
+            <h2 class="card-title">Account Info</h2>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-2">
+                <div>
+                    <p class="text-muted">Username</p>
+                    <p>{{ user.username }}</p>
+                </div>
+                <div>
+                    <p class="text-muted">Email</p>
+                    <p>{{ user.email }}</p>
+                </div>
+                <div>
+                    <p class="text-muted">Role</p>
+                    <p>{{ user.get_role_display }}</p>
+                </div>
+                <div>
+                    <p class="text-muted">Tokens Available</p>
+                    <p class="text-success" style="font-size: 1.5rem; font-weight: 700;">💎 {{ user.tokens_available|format_number }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+
+{% block title %}About - MyApply{% endblock %}
+
+{% block extra_css %}
+<style>
+.about-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.about-hero {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(139, 92, 246, 0.15));
+    border: 2px solid rgba(74, 144, 226, 0.4);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(74, 144, 226, 0.2);
+}
+
+.about-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+}
+
+.about-hero p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-card {
+    background: var(--bg-secondary);
+    border: 2px solid rgba(74, 144, 226, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.section-card:hover {
+    border-color: rgba(74, 144, 226, 0.6);
+    box-shadow: 0 8px 24px rgba(74, 144, 226, 0.2);
+    transform: translateY(-2px);
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-content {
+    color: var(--text-primary);
+    line-height: 1.8;
+}
+
+.workflow-diagram {
+    background: var(--bg-secondary);
+    border: 1px solid rgba(107, 182, 255, 0.35);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.workflow-diagram-basic {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.workflow-box {
+    min-width: 160px;
+    max-width: 210px;
+    background: rgba(18, 24, 42, 0.78);
+    border: 1px solid rgba(107, 182, 255, 0.4);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.workflow-box h4 {
+    font-size: 1rem;
+    color: var(--accent-light);
+    margin-bottom: 0.4rem;
+}
+
+.workflow-box p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+.workflow-arrow {
+    color: var(--accent-blue);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.workflow-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.workflow-table th,
+.workflow-table td {
+    border: 1px solid rgba(107, 182, 255, 0.2);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.workflow-table th {
+    background: rgba(18, 24, 42, 0.85);
+    color: var(--accent-light);
+    font-weight: 600;
+}
+
+.workflow-table td {
+    color: var(--text-secondary);
+}
+
+
+.class-info {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(74, 144, 226, 0.15));
+    border: 2px solid rgba(139, 92, 246, 0.4);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.class-info-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #a78bfa;
+    margin-bottom: 0.75rem;
+}
+
+.class-info-details {
+    color: var(--text-primary);
+    line-height: 1.8;
+}
+
+.highlight {
+    color: var(--accent-light);
+    font-weight: 600;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.tech-badge {
+    background: rgba(74, 144, 226, 0.2);
+    border: 1px solid rgba(74, 144, 226, 0.4);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    font-weight: 600;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <div class="about-hero">
+        <h1>MyApply - AI Resume Tailoring Platform</h1>
+        <p>Tailor resumes and cover letters with a snippet-aware, guardrailed AI pipeline that keeps every bullet grounded in your experience graph.</p>
+    </div>
+
+    <div class="class-info">
+        <div class="class-info-title">🎓 GT CS2340 - Objects & Design</div>
+        <div class="class-info-details">
+            This project is developed as part of <span class="highlight">CS2340: Objects & Design</span> at Georgia Institute of Technology. 
+            The platform demonstrates object-oriented design principles, API integration patterns, and full-stack development best practices.
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>🚀</span>
+            Project Overview
+        </h2>
+        <div class="section-content">
+            <p><strong>MyApply</strong> is an AI-powered resume tailoring platform that helps job seekers optimize their resumes for specific job postings. 
+            By leveraging OpenAI's language models and a structured experience graph, the platform intelligently matches your skills and achievements 
+            to job requirements while maintaining ATS (Applicant Tracking System) optimization.</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge">Django 4.2</span>
+                <span class="tech-badge">OpenAI Responses API</span>
+                <span class="tech-badge">MySQL 8</span>
+                <span class="tech-badge">Celery + Redis</span>
+                <span class="tech-badge">REST APIs</span>
+                <span class="tech-badge">Experience Graph JSON</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>⚙️</span>
+            How It Works
+        </h2>
+        <div class="section-content">
+            <p><strong>High-Level Workflow:</strong></p>
+
+            <div class="workflow-diagram">
+                <div class="workflow-diagram-basic">
+                    <div class="workflow-box">
+                        <h4>Job Intake</h4>
+                        <p>Paste a full description or supply a link so the service can ground the posting.</p>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-box">
+                        <h4>Profile Builder</h4>
+                        <p>Pulls required/preferred skills, verbs, certifications, and years of experience.</p>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-box">
+                        <h4>Snippet Scoring</h4>
+                        <p>Ranks experience graph entries, distills summaries, and trims to top matches.</p>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-box">
+                        <h4>AI Draft + Guardrails</h4>
+                        <p>Generates bullets, audits stretch against snippets, and regenerates any flagged claims.</p>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-box">
+                        <h4>Final Deliverables</h4>
+                        <p>Stores ATS score, suggestions, token usage, bullets, and optional cover letter.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="color: var(--accent-light); margin: 2rem 0 1rem;">Visual Relationship Dashboard</h3>
+            <p>Each job posting becomes a living workspace where you can:</p>
+            <ul style="margin-left: 1.5rem; line-height: 2;">
+                <li><strong>See all tailoring attempts</strong> in one place with real-time status indicators</li>
+                <li><strong>Track completion rates</strong> and identify which jobs need more work</li>
+                <li><strong>View timeline of sessions</strong> to understand your iteration process</li>
+                <li><strong>Quick-create new sessions</strong> directly from job cards with one click</li>
+                <li><strong>Compare performance</strong> across multiple tailoring attempts per job</li>
+            </ul>
+
+            <h3 style="color: var(--accent-light); margin: 2rem 0 1rem;">Experience Graph Flow</h3>
+            <p>Your professional experience is stored as a <strong>graph structure</strong> in JSON format, containing:</p>
+            <ul style="margin-left: 1.5rem; line-height: 2;">
+                <li><strong>Experiences:</strong> Work, leadership, projects, and activities with dates and context</li>
+                <li><strong>Skills:</strong> Technical and soft skills mapped directly to each node</li>
+                <li><strong>Achievements:</strong> Metrics, outcomes, and impact statements that feed bullet generation</li>
+                <li><strong>Relationships:</strong> Connections the scorer uses when matching snippets to job buckets</li>
+            </ul>
+            <p style="margin-top: 1.5rem;">Each tailoring run scores the graph, distills the top snippets into 40-word summaries, and keeps their achievements handy so the guardrails can verify every generated claim.</p>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>🤖</span>
+            OpenAI API Integration
+        </h2>
+        <div class="section-content">
+            <p>The tailoring service runs three concise OpenAI calls so every response stays grounded in the experience graph.</p>
+
+            <div class="workflow-diagram">
+                <div class="workflow-diagram-basic">
+                    <div class="workflow-box">
+                        <h4>Resume Draft</h4>
+                        <p>Consumes job profile + snippet summaries and returns bullets with snippet IDs and stretch data.</p>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-box">
+                        <h4>Guardrail Audit</h4>
+                        <p>Rechecks each bullet against the source snippet and requested stretch level, flagging any overreach.</p>
+                    </div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-box">
+                        <h4>Spot Regeneration</h4>
+                        <p>Only the flagged bullets are regenerated; optional cover letters reuse the same snippets.</p>
+                    </div>
+                </div>
+            </div>
+
+            <table class="workflow-table">
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>What Happens</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Resume Draft</td>
+                        <td>Structured JSON response: sectioned bullets, stretch metadata, optional metric hints, and extracted job location coordinates. Uses web_search tool for URL-based job postings.</td>
+                        <td>Model: gpt-4o-mini · Temperature: user-configured</td>
+                    </tr>
+                    <tr>
+                        <td>Guardrail Audit</td>
+                        <td>Validates each bullet against original snippet and stretch policy, emits status + reasons.</td>
+                        <td>Model: gpt-4o-mini · Temperature: 0</td>
+                    </tr>
+                    <tr>
+                        <td>Targeted Regeneration</td>
+                        <td>Rewrites only the rejected bullets using the snippet achievements and guardrail feedback.</td>
+                        <td>Model: gpt-4o-mini · Temperature: 0.2</td>
+                    </tr>
+                    <tr>
+                        <td>Cover Letter (optional)</td>
+                        <td>Builds a three-paragraph letter and talking points using the approved snippets.</td>
+                        <td>Model: gpt-4o-mini · Shares token ledger with resume run</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>🏗️</span>
+            System Architecture
+        </h2>
+        <div class="section-content">
+            <p><strong>Key components:</strong></p>
+            <ul style="margin-left: 1.5rem; line-height: 2;">
+                <li><strong>AgentKitTailoringService:</strong> builds job profiles, scores graph snippets, runs staged OpenAI calls, and applies guardrails.</li>
+                <li><strong>Celery worker:</strong> `process_tailoring_session` locks the session, normalizes parameters, and persists every output field in one transaction.</li>
+                <li><strong>Output metadata:</strong> bullet details, guardrail findings, layouts, talking points, and extracted job location coordinates live alongside the raw sections for easy review.</li>
+                <li><strong>Token tracking:</strong> prompt/completion totals from each OpenAI call are merged so quotas, billing, and analytics stay accurate.</li>
+            </ul>
+
+            <p style="margin-top: 1.5rem;"><strong>Data flow (end-to-end):</strong></p>
+            <div style="background: rgba(10, 15, 28, 0.8); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent-blue); margin-top: 1rem;">
+                <code style="color: var(--text-primary); line-height: 2;">
+                    User → Django View → Job Profile Builder → Snippet Scoring → OpenAI Draft → Guardrail Audit → Session Persistence → UI/API → User
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>👨‍💻</span>
+            Development Info
+        </h2>
+        <div class="section-content">
+            <p><strong>Course:</strong> CS2340 - Objects & Design<br>
+            <strong>Institution:</strong> Georgia Institute of Technology<br>
+            <strong>Focus Areas:</strong> Object-oriented design, API integration, full-stack development<br>
+            <strong>Technologies:</strong> Django, OpenAI Responses API, MySQL, Celery, REST APIs</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

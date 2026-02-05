@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load tailoring_filters %}
+
+{% block title %}Tailoring Sessions - MyApply{% endblock %}
+
+{% block content %}
+<div class="tailoring-page">
+    <div class="card-header">
+        <h1 class="card-title">
+            Tailoring Sessions
+        </h1>
+        <a href="{% url 'tailoring_create' %}" class="btn btn-primary">+ New Session</a>
+    </div>
+
+    {% if sessions %}
+    <div class="card mt-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Status</th>
+                    <th>Tokens</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                <tr>
+                    <td><strong>{{ session.job.title }}</strong></td>
+                    <td>{{ session.job.company }}</td>
+                    <td>
+                        {% if session.status == 'COMPLETED' %}
+                        <span class="tag tag-success">{{ session.get_status_display }}</span>
+                        {% elif session.status == 'FAILED' %}
+                        <span class="tag tag-error">{{ session.get_status_display }}</span>
+                        {% elif session.status == 'PROCESSING' %}
+                        <span class="tag tag-warning">{{ session.get_status_display }}</span>
+                        {% else %}
+                        <span class="tag">{{ session.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if session.token_usage.total_tokens %}
+                        {{ session.token_usage.total_tokens|format_number }}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+                    <td>{{ session.created_at|date:"M d, Y" }}</td>
+                    <td>
+                        <a href="{% url 'tailoring_detail' session.id %}" class="btn btn-small">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="card mt-2">
+        <div class="card-body">
+            <p class="text-muted mb-1">No tailoring sessions yet.</p>
+            <a href="{% url 'tailoring_create' %}" class="btn btn-primary">+ Start Your First Session</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

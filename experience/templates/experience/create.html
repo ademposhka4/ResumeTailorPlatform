@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Experience - MyApply{% endblock %}
+
+{% block extra_css %}
+<style>
+.form-label-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--accent-blue);
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.form-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    margin-bottom: 0.875rem;
+    padding: 0.75rem 1rem;
+    background: #dbeafe;
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.form-hint-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-blue);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Create Experience Graph</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="form-label" for="graph_json">
+                    <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    Experience Graph JSON
+                </label>
+                <div class="form-hint">
+                    <svg class="form-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>Enter your experience data in JSON format. Include title, company, dates, skills, and achievements for each entry.</span>
+                </div>
+                <textarea name="graph_json" id="graph_json" class="form-textarea" rows="20" required>
+{
+  "experiences": [
+    {
+      "title": "Your Job Title",
+      "company": "Company Name",
+      "start": "2023-01",
+      "end": "2024-08",
+      "skills": ["python", "django", "postgresql"],
+      "achievements": [
+        "Built REST APIs serving 10K+ requests/day",
+        "Reduced database query time by 40%"
+      ]
+    }
+  ]
+}</textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'experience_list' %}" class="btn">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
